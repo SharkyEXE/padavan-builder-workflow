@@ -1,2 +1,2 @@
-ln -snf /usr/share/zoneinfo/Asia/Kuwait /etc/localtime && echo Asia/Kuwait > /etc/timezone
-apt-get update && apt-get install -y tzdata
+ln -fs /usr/share/zoneinfo/America/Chicago /etc/localtime
+DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
