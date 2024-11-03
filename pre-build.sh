@@ -1,4 +1,5 @@
-FROM ubuntu
-RUN apt-get update
-ARG DEBIAN_FRONTEND=noninteractive
-RUN ln -s /usr/share/zoneinfo/America/New_York /etc/localtime && apt-get install tzdata -y
+# Set timezone:
+RUN ln -snf /usr/share/zoneinfo/Asia/Kuwait /etc/localtime && echo Asia/Kuwait > /etc/timezone
+
+# Install dependencies:
+RUN apt-get update && apt-get install -y tzdata
