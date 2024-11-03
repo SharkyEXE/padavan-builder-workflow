@@ -1,1 +1,1 @@
-sudo timedatectl set-timezone America/New_York
+timedatectl set-timezone America/New_York
