@@ -1,7 +1,6 @@
 name: Build firmware
 
-environment:
-      TZ: "Europe/Moscow"
+@timestamp
 
 on:
   workflow_dispatch:
