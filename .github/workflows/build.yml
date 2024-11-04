@@ -10,8 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: registry.gitlab.com/hadzhioglu/padavan-ng
-    environment:
-      - TZ=Europe/Samara
     defaults: { run: { shell: bash } }
     steps:
     - uses: actions/checkout@v4
