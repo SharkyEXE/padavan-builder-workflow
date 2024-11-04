@@ -1,7 +1,7 @@
 name: Build firmware
 
-env:
-  TZ: "Africa/Nairobi"
+environment:
+      TZ: "Europe/Moscow"
 
 on:
   workflow_dispatch:
