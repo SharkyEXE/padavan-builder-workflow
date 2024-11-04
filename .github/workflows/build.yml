@@ -7,7 +7,6 @@ on:
       - '*'
 
 jobs:
-  build:
   environment:
     - "TZ=America/Los_Angeles" # offset = -08:00 / DST -07:00
     runs-on: ubuntu-latest
