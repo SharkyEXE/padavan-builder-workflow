@@ -12,8 +12,6 @@ jobs:
     container: registry.gitlab.com/hadzhioglu/padavan-ng
     environment:
       - TZ=Europe/Samara
-    volumes:
-      - /usr/share/zoneinfo/Europe:/usr/share/zoneinfo/Europe:ro   
     defaults: { run: { shell: bash } }
     steps:
     - uses: actions/checkout@v4
