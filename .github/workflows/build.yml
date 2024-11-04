@@ -9,8 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: registry.gitlab.com/hadzhioglu/padavan-ng
-    defaults: { run: { shell: bash } }
+    env:
+      DEBIAN_FRONTEND: noninteractive
+      TZ=America/Denver
     steps:
     - uses: actions/checkout@v4
 
@@ -22,26 +23,90 @@ jobs:
         for v in "${!PADAVAN_@}" "${!CONFIG_@}"; do
           echo "$v=${!v}" >> $GITHUB_ENV
         done
-
+    - name: Install dependencies
+      run: |
+        sudo apt update
+        sudo apt remove '~i (~nclang-tidy|~nswig)' -y
+        sudo apt install --no-install-recommends -y \
+                 autoconf \
+                 autoconf-archive \
+                 automake \
+                 autopoint \
+                 bison \
+                 build-essential \
+                 ca-certificates \
+                 cmake \
+                 cpio \
+                 curl \
+                 doxygen \
+                 fakeroot \
+                 flex \
+                 gawk \
+                 gettext \
+                 git \
+                 gperf \
+                 help2man \
+                 kmod \
+                 libblkid-dev \
+                 libc-ares-dev \
+                 libcurl4-openssl-dev \
+                 libdevmapper-dev \
+                 libev-dev \
+                 libevent-dev \
+                 libexif-dev \
+                 libflac-dev \
+                 libgmp3-dev \
+                 libid3tag0-dev \
+                 libidn2-dev \
+                 libjpeg-dev \
+                 libkeyutils-dev \
+                 libltdl-dev \
+                 libmpc-dev \
+                 libmpfr-dev \
+                 libncurses5-dev \
+                 libogg-dev \
+                 libsqlite3-dev \
+                 libssl-dev \
+                 libtool \
+                 libtool-bin \
+                 libudev-dev \
+                 libunbound-dev \
+                 libvorbis-dev \
+                 libxml2-dev \
+                 locales \
+                 pkg-config \
+                 ppp-dev \
+                 python3 \
+                 python3-docutils \
+                 texinfo \
+                 unzip \
+                 uuid \
+                 uuid-dev \
+                 vim \
+                 wget \
+                 xxd \
+                 zlib1g-dev \
+                 zstd
+    - name: Update locales
+      run: |
+        sudo locale-gen --no-purge en_US.UTF-8 ru_RU.UTF-8
+        echo "LANG=en_US.UTF-8" >> $GITHUB_ENV
+        echo "LC_ALL=en_US.UTF-8" >> $GITHUB_ENV
     - name: Download sources and toolchain
       run: |
-        git config --global --add safe.directory '*'
         git clone -b "$PADAVAN_BRANCH" "$PADAVAN_REPO"
-        git -C padavan-ng checkout "$PADAVAN_COMMIT"
+        git checkout "$PADAVAN_COMMIT"
         wget -qO- "$PADAVAN_TOOLCHAIN_URL" | tar -C padavan-ng --zstd -xf -
-
     - name: Install themes
       run: |
         if [[ -n $PADAVAN_THEMES ]]; then
           git clone --depth 1 -b "$PADAVAN_THEMES_BRANCH" "$PADAVAN_THEMES_REPO" themes
           cp -r themes/common-theme themes/jquery.js padavan-ng/trunk/user/www/n56u_ribbon_fixed
-
           for theme in $PADAVAN_THEMES; do
             echo "Installing $theme theme"
             cp -r "themes/$theme-theme" padavan-ng/trunk/user/www/n56u_ribbon_fixed
           done
         fi
-
     - name: Run custom pre-build script
       run: '[[ -f pre-build.sh ]] && . pre-build.sh || :'
 
@@ -52,7 +117,6 @@ jobs:
         ./clear_tree.sh
         ./build_firmware.sh
         popd
-
     - name: Run custom post-build script
       run: '[[ -f post-build.sh ]] && . post-build.sh || :'
 
@@ -63,22 +127,19 @@ jobs:
         cp "padavan-ng/trunk/images/$FW_FILE_NAME" .
         echo "FW_FILE_NAME=$FW_FILE_NAME" >> $GITHUB_ENV
         echo "BUILD_TIMESTAMP=$(date '+%Y.%m.%d_%H.%M.%S')" >> $GITHUB_ENV
-
     - name: Upload artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: padavan-ng_${{ env.CONFIG_VENDOR }}_${{ env.CONFIG_FIRMWARE_PRODUCT_ID }}_${{ env.BUILD_TIMESTAMP }}
         retention-days: 7
         path: |
           ${{ env.FW_FILE_NAME }}
           build.config
-
     - name: Check firmware size
       run: |
         partitions=padavan-ng/trunk/configs/boards/$CONFIG_VENDOR/$CONFIG_FIRMWARE_PRODUCT_ID/partitions.config
         max_fw_size="$(awk '/Firmware/ { getline; getline; sub(",", ""); print strtonum($2); }' "$partitions")"
         fw_size="$(stat -c %s "$FW_FILE_NAME")"
-
         if ((fw_size > max_fw_size)); then
           fw_size_fmtd="$(numfmt --grouping "$fw_size") bytes"
           max_fw_size_fmtd="$(numfmt --grouping "$max_fw_size") bytes"
