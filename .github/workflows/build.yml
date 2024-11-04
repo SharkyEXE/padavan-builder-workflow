@@ -15,6 +15,14 @@ jobs:
     - name: Get current date
       id: date
       run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+    # Set the date time
+    - name: Retrieve current Date Time in Singapore TimeZone
+        shell: bash
+        run: echo "START_TIME=$(TZ=":Asia/Singapore" date -R|sed 's/.....$//')" >> $GITHUB_ENV
+
+    # Fetch the date time as Github ENV variable
+    - name: print date
+        run: echo ${{ env.START_TIME }}
     - uses: actions/checkout@v4
 
     - name: Get variables
