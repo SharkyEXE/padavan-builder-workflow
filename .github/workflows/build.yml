@@ -8,12 +8,13 @@ on:
 
 jobs:
   build:
-    environment:
-    - TZ=America/Denver
     runs-on: ubuntu-latest
     container: registry.gitlab.com/hadzhioglu/padavan-ng
     defaults: { run: { shell: bash } }
     steps:
+    - name: Get current date
+    id: date
+    run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
     - uses: actions/checkout@v4
 
     - name: Get variables
