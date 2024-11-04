@@ -8,6 +8,8 @@ on:
 
 jobs:
   build:
+    environment:
+    - TZ=America/Denver
     runs-on: ubuntu-latest
     container: registry.gitlab.com/hadzhioglu/padavan-ng
     defaults: { run: { shell: bash } }
