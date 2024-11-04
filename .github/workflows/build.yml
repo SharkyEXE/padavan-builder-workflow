@@ -12,12 +12,6 @@ jobs:
     container: registry.gitlab.com/hadzhioglu/padavan-ng
     defaults: { run: { shell: bash } }
     steps:
-    - name: Set Timezone to +8 (With input)
-      uses: szenius/set-timezone@v2.0
-      with:
-          timezoneLinux: "UTC"
-          timezoneMacos: "GMT"
-          timezoneWindows: "UTC"
     - uses: actions/checkout@v4
 
     - name: Get variables
