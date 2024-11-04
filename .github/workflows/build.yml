@@ -1,13 +1,13 @@
 name: Build firmware
 
+env:
+  TZ: "Africa/Nairobi"
+
 on:
   workflow_dispatch:
   push:
     tags:
       - '*'
-
-env:
-  TZ: "America/Edmonton"
 
 jobs:
   build:
