@@ -13,7 +13,7 @@ jobs:
     defaults: { run: { shell: bash } }
     steps:
     - name: Set Timezone to +8 (With input)
-      uses: ./
+      uses: MathRobin/timezone-action@v1.1
       with:
         timezoneLinux: 'Asia/Singapore'
         timezoneMacos: 'Asia/Singapore'
