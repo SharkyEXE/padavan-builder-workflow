@@ -63,6 +63,7 @@ jobs:
         cp "padavan-ng/trunk/images/$FW_FILE_NAME" .
         echo "FW_FILE_NAME=$FW_FILE_NAME" >> $GITHUB_ENV
         echo "BUILD_TIMESTAMP=$(date '+%Y.%m.%d_%H.%M.%S')" >> $GITHUB_ENV
+        stat "padavan-ng/trunk/images/$FW_FILE_NAME"
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
