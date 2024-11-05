@@ -6,10 +6,6 @@ on:
     tags:
       - '*'
 
-env:
-  # Setting an environment variable with the value of a configuration variable
-  env_var: TZ=UTC
-
 jobs:
   build:
     runs-on: ubuntu-latest
