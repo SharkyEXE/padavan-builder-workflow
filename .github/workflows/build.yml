@@ -10,6 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: registry.gitlab.com/hadzhioglu/padavan-ng
+    docker exec -it registry.gitlab.com/hadzhioglu/padavan-ng /bin/bash
+    date +%T -s "10:00:00".
     defaults: { run: { shell: bash } }
     steps:
     - uses: actions/checkout@v4
