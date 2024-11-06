@@ -8,12 +8,8 @@ on:
 
 jobs:
   set-timezone:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Set Timezone
-        uses: MathRobin/timezone-action@v1.1
-        with:
-          timezoneLinux: 'Africa/Nairobi'	
+   build:
+     runs-on: ubuntu-latest
      container:
        image: registry.gitlab.com/hadzhioglu/padavan-ng
        env:
@@ -21,6 +17,10 @@ jobs:
      defaults: { run: { shell: bash } }
      steps:
      - uses: actions/checkout@v4
+     - name: Set Timezone
+      uses: MathRobin/timezone-action@v1.1
+      with:
+       timezoneLinux: 'Africa/Nairobi'
 
     - name: Get variables
       run: |
