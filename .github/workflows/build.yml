@@ -7,19 +7,19 @@ on:
       - '*'
 
 jobs:
-  set-timezone:
-    runs-on: ubuntu-latest
   build:
-    container:
+    runs-on: ubuntu-latest
+    container: 
       image: registry.gitlab.com/hadzhioglu/padavan-ng
       env:
-        TZ: "Africa/Nairobi"
+        TZ: Africa/Nairobi
     defaults: { run: { shell: bash } }
     steps:
-      - name: Set Timezone
-        uses: MathRobin/timezone-action@v1.1
-        with:
-          timezoneLinux: 'Africa/Nairobi'
+    - uses: MathRobin/timezone-action@v1.1
+      name: Set Timezone
+      with:
+        timezone: 'Africa/Nairobi'
+
     - uses: actions/checkout@v4
 
     - name: Get variables
