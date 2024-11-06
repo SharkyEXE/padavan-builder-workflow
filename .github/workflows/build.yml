@@ -14,8 +14,6 @@ jobs:
     steps:
     - name: Set Timezone
       uses: szenius/set-timezone@v2.0
-      with:
-       timezoneLinux: 'Europe/Berlin'
     - uses: actions/checkout@v4
 
     - name: Get variables
