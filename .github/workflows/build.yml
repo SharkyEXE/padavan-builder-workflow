@@ -9,12 +9,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
+    container: 
       image: registry.gitlab.com/hadzhioglu/padavan-ng
       env:
-        TZ: "Africa/Nairobi"
+        TZ: Africa/Nairobi
     defaults: { run: { shell: bash } }
     steps:
+    - uses: MathRobin/timezone-action@v1.1
+      name: Set Timezone
+      with:
+        timezoneLinux: 'Africa/Nairobi'
+        timezoneMacos: 'Asia/Singapore'
+        timezoneWindows: 'Singapore Standard Time'
+
     - uses: actions/checkout@v4
 
     - name: Get variables
