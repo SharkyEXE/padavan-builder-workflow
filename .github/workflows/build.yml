@@ -9,11 +9,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: registry.gitlab.com/hadzhioglu/padavan-ng
+    container:
+      image: registry.gitlab.com/hadzhioglu/padavan-ng
+      env:
+        TZ: "Europe/Berlin"
     defaults: { run: { shell: bash } }
     steps:
-    - name: Set Timezone
-      uses: szenius/set-timezone@v2.0
     - uses: actions/checkout@v4
 
     - name: Get variables
