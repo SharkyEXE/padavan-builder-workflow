@@ -12,7 +12,7 @@ jobs:
     container:
       image: registry.gitlab.com/hadzhioglu/padavan-ng
       env:
-        TZ: "Europe/Berlin"
+        TZ: "Africa/Nairobi"
     defaults: { run: { shell: bash } }
     steps:
     - uses: actions/checkout@v4
