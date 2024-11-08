@@ -9,19 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: 
-      image: registry.gitlab.com/hadzhioglu/padavan-ng
-      env:
-        TZ: Africa/Nairobi
+    container: registry.gitlab.com/hadzhioglu/padavan-ng
     defaults: { run: { shell: bash } }
     steps:
-    - uses: MathRobin/timezone-action@v1.1
-      name: Set Timezone
-      with:
-        timezoneLinux: 'Africa/Nairobi'
-        timezoneMacos: 'Asia/Singapore'
-        timezoneWindows: 'Singapore Standard Time'
-
     - uses: actions/checkout@v4
 
     - name: Get variables
@@ -95,3 +85,4 @@ jobs:
           echo "Firmware size ($fw_size_fmtd) exceeds max size ($max_fw_size_fmtd) for your target device"
           exit 1
         fi
+ 
